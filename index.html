@@ -445,8 +445,8 @@
     const options = { method, headers: { 'Content-Type': 'application/json' } };
     if (body) options.body = JSON.stringify(body);
 
-    // Usa o mesmo domínio que o Render
-    const fullUrl = `${window.location.origin}${url}`;
+    // URL do backend hospedado no Render
+    const fullUrl = `https://delicioso-34fj.onrender.com${url}`;
 
     const res = await fetch(fullUrl, options);
     if(res.headers.get("content-type")?.includes("application/json")) {
