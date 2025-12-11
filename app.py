@@ -1,12 +1,31 @@
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS
 import sqlite3
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
-app = Flask(__name__, static_folder='.')
-CORS(app)
+# Carrega variáveis de ambiente do arquivo .env
+load_dotenv()
 
-DB_FILE = 'delicioso.db'
+app = Flask(__name__, 
+           static_folder='static',
+           template_folder='templates')
+
+# Configurações do Flask usando variáveis de ambiente
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'delicioso-default-secret-key')
+app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+
+# Configuração CORS
+cors_origins = os.getenv('CORS_ORIGINS', '*')
+if cors_origins == '*':
+    CORS(app)
+else:
+    CORS(app, origins=cors_origins.split(','))
+
+# Configurações do banco de dados
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///delicioso.db')
+DB_FILE = DATABASE_URL.replace('sqlite:///', '') if DATABASE_URL.startswith('sqlite:///') else 'delicioso.db'
 
 # --- BANCO DE DADOS ---
 def init_db():
@@ -48,7 +67,11 @@ init_db()
 # --- ROTAS FRONTEND ---
 @app.route('/')
 def index():
-    return send_from_directory('.', 'index.html')
+    return render_template('index.html')
+
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_from_directory('static', filename)
 
 # --- ROTAS API ---
 @app.route('/api/dashboard')
@@ -251,6 +274,15 @@ def limpar_tudo():
 
 # --- RUN ---
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # Configurações do servidor usando variáveis de ambiente
+    port = int(os.getenv('PORT', 5000))
+    host = os.getenv('HOST', '0.0.0.0')
+    debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    print(f"🍲 Iniciando Sistema Delicioso...")
+    print(f"🌐 Servidor: http://{host}:{port}")
+    print(f"🔧 Debug: {debug}")
+    print(f"🗄️  Banco: {DB_FILE}")
+    print("=" * 50)
+    
+    app.run(host=host, port=port, debug=debug)
