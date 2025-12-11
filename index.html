@@ -442,30 +442,20 @@
 
         // --- FETCH API HELPER ---
         async function api(url, method='GET', body=null) {
-            const options = { method, headers: { 'Content-Type': 'application/json' } };
-            if (body) options.body = JSON.stringify(body);
-            
-            // Tenta 3 vezes em caso de falha de conexão temporária
-            for (let i = 0; i < 3; i++) {
-                try {
-                    const res = await fetch(url, options);
-                    const json = await res.json();
-                    
-                    if (!res.ok) {
-                        const errorMsg = json.message || `Erro HTTP! Status: ${res.status}`;
-                        throw new Error(errorMsg);
-                    }
-                    return json;
-                } catch (error) {
-                    console.error(`Erro na API (${i+1}/3):`, error.message);
-                    if (i === 2) { // Última tentativa
-                        alert(`❌ Erro de Comunicação: ${error.message}. Verifique se o backend (app.py) está em execução.`);
-                        return null;
-                    }
-                    await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1))); // Espera exponencial (1s, 2s)
-                }
-            }
-        }
+    const options = { method, headers: { 'Content-Type': 'application/json' } };
+    if (body) options.body = JSON.stringify(body);
+
+    // Usa o mesmo domínio que o Render
+    const fullUrl = `${window.location.origin}${url}`;
+
+    const res = await fetch(fullUrl, options);
+    if(res.headers.get("content-type")?.includes("application/json")) {
+        return await res.json();
+    } else {
+        throw new Error("❌ Resposta inesperada: " + await res.text());
+    }
+}
+
 
         // --- LÓGICA DASHBOARD ---
         async function carregarDashboard() {
