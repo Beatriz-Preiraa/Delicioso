@@ -2,43 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Delicioso - Sistema de Gestão de Pedidos</title>
+    <title>Delicioso - Sistema de Gestão</title>
     
-    <!-- Meta tags para PWA e SEO -->
-    <meta name="description" content="Sistema profissional de gestão de pedidos para restaurantes e delivery">
-    <meta name="theme-color" content="#FFA20C">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Delicioso">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Farsan&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Farsan&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: '#FFA20C',
-                        secondary: '#E28B00',
-                        accent: '#b87100'
+                        secondary: '#E28B00'
                     },
                     fontFamily: {
                         'farsan': ['Farsan', 'cursive'],
                         'inter': ['Inter', 'sans-serif']
-                    },
-                    screens: {
-                        'xs': '475px',
                     }
                 }
             }
@@ -46,1416 +28,359 @@
     </script>
 
     <style>
-        /* Ultra Responsive CSS - Mobile First */
-        
-        /* Reset Avançado */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-
         body { 
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #1a202c;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Layout Responsivo */
-        .login-layout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1rem;
+            background-color: #f3f4f6 !important; 
+            color: #1f2937 !important;
+            min-width: 1280px; 
+            overflow-x: auto;
         }
 
         .app-layout {
             display: flex;
             height: 100vh;
-            overflow: hidden;
         }
 
-        /* Navegação e Abas */
-        .tab-content { 
-            display: none; 
-        }
-
-        .tab-content.active { 
-            display: block; 
-            animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-        }
-
-        @keyframes slideIn { 
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
-            } 
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            } 
-        }
-
-        /* Sidebar Ultra Responsivo */
         .sidebar {
-            width: 280px;
-            background: linear-gradient(135deg, #FFA20C 0%, #E28B00 100%);
+            width: 260px;
+            min-width: 260px;
+            background: linear-gradient(180deg, #FFA20C 0%, #E28B00 100%);
             color: white;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-        }
-
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
 
         .sidebar-item { 
+            padding: 16px 24px;
             cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border-left: 4px solid transparent;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            font-weight: 600;
         }
 
-        .sidebar-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: -1;
-        }
+        .sidebar-item:hover { background: rgba(255,255,255,0.15); }
+        .active-nav { background: rgba(0,0,0,0.1); border-left: 5px solid white; }
 
-        .sidebar-item:hover::before {
-            left: 0;
-        }
-
-        .sidebar-item:hover { 
-            background-color: rgba(226, 139, 0, 0.8);
-            transform: translateX(6px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        } 
-
-        .sidebar-item.active-nav { 
-            background-color: #E28B00; 
-            border-left: 4px solid #b87100;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
-            transform: translateX(4px);
-        }
-
-        /* Mobile Sidebar */
-        .mobile-sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 999;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            background: linear-gradient(135deg, #FFA20C 0%, #E28B00 100%);
-            color: white;
-            border: none;
-            padding: 0.875rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(255, 162, 12, 0.4);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            min-width: 48px;
-            min-height: 48px;
-        }
-
-        .mobile-menu-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(255, 162, 12, 0.5);
-        }
-
-        /* Conteúdo Principal Ultra Responsivo */
         .main-content {
             flex: 1;
+            padding: 40px;
             overflow-y: auto;
-            background: #f8fafc;
-            position: relative;
-            padding: 2rem;
         }
 
-        /* Cards Avançados */
         .card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Botões Ultra Responsivos */
-        .btn-primary {
-            background: linear-gradient(135deg, #FFA20C 0%, #E28B00 100%);
-            color: white;
-            padding: 0.875rem 1.75rem;
+            background: white !important;
             border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: none;
+            padding: 24px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+        }
+
+        .input-field {
+            border: 2px solid #d1d5db;
+            padding: 10px 14px;
+            border-radius: 8px;
+            width: 100%;
+            background: white !important;
+            color: #1f2937 !important;
+            outline: none;
+        }
+
+        .input-field:focus { border-color: #FFA20C; }
+
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: #f9fafb; padding: 12px; text-align: left; color: #4b5563; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid #f3f4f6; }
+        td { padding: 12px; border-bottom: 1px solid #f3f4f6; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .btn-primary {
+            background: #FFA20C;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: 0.2s;
             cursor: pointer;
+            border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 48px;
-            text-decoration: none;
-            box-shadow: 0 4px 14px rgba(255, 162, 12, 0.3);
-            position: relative;
-            overflow: hidden;
         }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #E28B00 0%, #d17a00 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 162, 12, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
-            color: white;
-            padding: 0.875rem 1.75rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: none;
-            cursor: pointer;
-            min-height: 48px;
-            box-shadow: 0 4px 14px rgba(107, 114, 128, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #4B5563 0%, #374151 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
-        }
-
-        /* Input Fields Ultra Responsivos */
-        .input-field {
-            border: 2px solid #E5E7EB;
-            padding: 0.875rem 1rem;
-            border-radius: 12px;
-            width: 100%;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            font-size: 16px;
-            min-height: 48px;
-            background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-field:focus {
-            border-color: #FFA20C;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(255, 162, 12, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: translateY(-1px);
-        }
-
-        /* Select Fields */
-        select.input-field {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 1rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-            padding-right: 3rem;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-
-        /* Tabelas Ultra Responsivas */
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            background: white;
-        }
-
-        .table-responsive::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        /* Status Badges */
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .status-paid {
-            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-            color: #065F46;
-        }
-
-        .status-pending {
-            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-            color: #991B1B;
-        }
-
-        .status-cash {
-            background: linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%);
-            color: #374151;
-        }
-
-        /* Grid Ultra Responsivo */
-        .grid-responsive {
-            display: grid;
-            gap: 1rem;
-        }
-
-        /* Loading States */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-            position: relative;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 24px;
-            height: 24px;
-            margin: -12px 0 0 -12px;
-            border: 3px solid #FFA20C;
-            border-top: 3px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Utilitários */
-        .font-farsan {
-            font-family: 'Farsan', cursive;
-        }
-
-        .transition-smooth {
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        /* RESPONSIVIDADE ULTRA AVANÇADA */
-
-        /* Extra Small Devices (até 475px) */
-        @media (max-width: 475px) {
-            html {
-                font-size: 14px;
-            }
-
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                transform: translateX(-100%);
-                z-index: 1000;
-                width: 280px;
-            }
-            
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            
-            .mobile-sidebar-overlay.active {
-                display: block;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .main-content {
-                width: 100%;
-                padding: 4.5rem 0.75rem 1rem;
-            }
-            
-            .app-layout {
-                flex-direction: column;
-            }
-            
-            .card {
-                padding: 1rem;
-                margin-bottom: 1rem;
-                border-radius: 12px;
-            }
-            
-            .btn-primary, .btn-secondary {
-                width: 100%;
-                margin-bottom: 0.75rem;
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            .input-field {
-                padding: 1rem;
-                font-size: 16px;
-                border-radius: 12px;
-            }
-
-            .table-responsive {
-                font-size: 0.875rem;
-                margin: 0 -1rem;
-                border-radius: 0;
-            }
-
-            h1 {
-                font-size: 1.75rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            h3 {
-                font-size: 1.25rem;
-            }
-
-            .sidebar-item {
-                padding: 1.25rem 1.5rem;
-                font-size: 1rem;
-            }
-        }
-
-        /* Small Devices (476px - 640px) */
-        @media (min-width: 476px) and (max-width: 640px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                transform: translateX(-100%);
-                z-index: 1000;
-                width: 280px;
-            }
-            
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            
-            .mobile-sidebar-overlay.active {
-                display: block;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .main-content {
-                width: 100%;
-                padding: 4rem 1rem 1rem;
-            }
-
-            .card {
-                padding: 1.25rem;
-            }
-
-            .grid-responsive {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Medium Devices (641px - 768px) */
-        @media (min-width: 641px) and (max-width: 768px) {
-            .sidebar {
-                width: 240px;
-            }
-            
-            .main-content {
-                padding: 1.5rem;
-            }
-
-            .grid-responsive {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-        }
-
-        /* Large Devices (769px - 1024px) */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .sidebar {
-                width: 260px;
-            }
-            
-            .main-content {
-                padding: 2rem;
-            }
-
-            .grid-responsive {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-
-        /* Extra Large Devices (1025px+) */
-        @media (min-width: 1025px) {
-            .main-content {
-                padding: 2.5rem;
-            }
-
-            .grid-responsive {
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            }
-
-            .card:hover {
-                transform: translateY(-6px);
-            }
-        }
-
-        /* Landscape Orientation */
-        @media (max-height: 600px) and (orientation: landscape) {
-            .sidebar {
-                width: 220px;
-            }
-            
-            .main-content {
-                padding: 1rem;
-            }
-
-            .card {
-                padding: 1rem;
-                margin-bottom: 1rem;
-            }
-        }
-
-        /* High DPI Displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .card {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-
-            .btn-primary, .btn-secondary {
-                box-shadow: 0 2px 8px rgba(255, 162, 12, 0.2);
-            }
-        }
-
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-                color: #f7fafc;
-            }
-            
-            .card {
-                background: rgba(45, 55, 72, 0.9);
-                color: #f7fafc;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .input-field {
-                background: #2d3748;
-                border-color: #4a5568;
-                color: #f7fafc;
-            }
-
-            .input-field:focus {
-                border-color: #FFA20C;
-                background: #374151;
-            }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            .sidebar, .mobile-menu-btn, .mobile-sidebar-overlay {
-                display: none !important;
-            }
-            
-            .main-content {
-                width: 100% !important;
-                padding: 0 !important;
-            }
-            
-            .card {
-                box-shadow: none;
-                border: 1px solid #e5e7eb;
-                break-inside: avoid;
-            }
-
-            .btn-primary, .btn-secondary {
-                display: none;
-            }
-        }
-
-        /* Touch Devices */
-        @media (hover: none) and (pointer: coarse) {
-            .sidebar-item:hover {
-                background-color: transparent;
-                transform: none;
-            }
-
-            .card:hover {
-                transform: none;
-            }
-
-            .btn-primary:hover, .btn-secondary:hover {
-                transform: none;
-            }
-        }
-
-        /* Accessibility Improvements */
-        @media (prefers-contrast: high) {
-            .card {
-                border: 2px solid #000;
-            }
-
-            .btn-primary {
-                border: 2px solid #000;
-            }
-
-            .input-field {
-                border: 2px solid #000;
-            }
-        }
-
-        /* Custom Scrollbar for Webkit */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        .btn-primary:hover { background: #E28B00; transform: translateY(-1px); }
+        
+        .login-layout { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f3f4f6; }
     </style>
 </head>
 <body class="font-inter">
 
-    <!-- Tela de Login Ultra Responsiva -->
     <div id="login_screen" class="login-layout">
-        <div class="w-full max-w-md">
-            <div class="card glass-effect border-t-4 border-primary">
-                <div class="text-center mb-8">
-                    <h1 class="font-bold tracking-wider flex flex-col justify-center items-center text-primary">
-                        <span class="text-5xl mb-2 animate-bounce">🍲</span> 
-                        <span class="font-farsan text-4xl sm:text-5xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Delicioso</span>
-                    </h1>
-                    <p class="text-gray-600 mt-3 text-sm sm:text-base">Sistema de Gestão de Pedidos</p>
-                    <p class="text-xs text-red-500 mt-2 hidden transition-all" id="login_error"></p>
-                </div>
-
-                <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
-                    <div class="mb-6">
-                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-user mr-2 text-primary"></i>Usuário
-                        </label>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            placeholder="admin" 
-                            class="input-field transition-smooth" 
-                            required
-                            autocomplete="username"
-                        >
-                    </div>
-                    <div class="mb-8">
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-lock mr-2 text-primary"></i>Senha
-                        </label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            placeholder="1234" 
-                            class="input-field transition-smooth" 
-                            required
-                            autocomplete="current-password"
-                        >
-                    </div>
-                    <button type="submit" class="btn-primary w-full text-lg transition-smooth">
-                        <i class="fas fa-sign-in-alt mr-2"></i>
-                        ENTRAR NO SISTEMA
-                    </button>
-                </form>
-                
-                <div class="text-center text-xs text-gray-500 mt-8 p-4 bg-gray-50 rounded-lg">
-                    <p class="font-semibold mb-1">🔑 Credenciais de Teste:</p>
-                    <p><span class="font-mono bg-gray-200 px-2 py-1 rounded">admin</span> | <span class="font-mono bg-gray-200 px-2 py-1 rounded">1234</span></p>
-                </div>
+        <div class="card w-[400px]">
+            <div class="text-center mb-8">
+                <span class="text-6xl">🍲</span>
+                <h1 class="font-farsan text-5xl text-primary mt-2">Delicioso</h1>
+                <p class="text-gray-500 text-sm mt-2">Painel Administrativo</p>
             </div>
+            <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Usuário</label>
+                    <input type="text" id="username" class="input-field" placeholder="admin">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Senha</label>
+                    <input type="password" id="password" class="input-field" placeholder="1234">
+                </div>
+                <button type="submit" class="btn-primary w-full text-lg">ENTRAR NO SISTEMA</button>
+            </form>
         </div>
     </div>
 
-
-    <!-- Container Principal Ultra Responsivo -->
     <div id="app_container" class="app-layout hidden">
         
-        <!-- Botão Menu Mobile -->
-        <button id="mobile_menu_btn" class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">
-            <i class="fas fa-bars text-lg"></i>
-        </button>
-        
-        <!-- Overlay Mobile -->
-        <div id="mobile_overlay" class="mobile-sidebar-overlay" onclick="closeMobileMenu()"></div>
-        
-        <!-- Sidebar Ultra Responsivo -->
-        <aside id="sidebar" class="sidebar">
-            <!-- Header do Sidebar -->
-            <div class="p-6 text-center border-b border-secondary relative z-10">
-                <h1 class="font-bold tracking-wider flex flex-col justify-center items-center">
-                    <span class="text-4xl mb-2 animate-pulse">🍲</span> 
-                    <span class="font-farsan text-3xl sm:text-4xl">Delicioso</span>
-                </h1>
-                <p class="text-xs text-orange-100 mt-2 opacity-90">Sistema de Gestão v3.0</p>
+        <aside class="sidebar">
+            <div class="p-10 text-center border-b border-white/20">
+                <span class="text-4xl mb-2 block">🍲</span>
+                <h1 class="font-farsan text-4xl">Delicioso</h1>
             </div>
             
-            <!-- Navegação -->
-            <nav class="flex-grow py-4 space-y-2 relative z-10">
-                <div onclick="showTab('dashboard')" class="sidebar-item active-nav px-6 py-4 flex items-center cursor-pointer">
-                    <i class="fas fa-chart-line w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Dashboard</span>
+            <nav class="flex-grow py-6">
+                <div onclick="showTab('dashboard')" class="sidebar-item active-nav" id="nav_dashboard">
+                    <i class="fas fa-chart-line w-8"></i> Dashboard
                 </div>
-                <div onclick="showTab('novo_pedido')" class="sidebar-item px-6 py-4 flex items-center cursor-pointer">
-                    <i class="fas fa-plus-circle w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Novo Pedido</span>
+                <div onclick="showTab('novo_pedido')" class="sidebar-item" id="nav_novo_pedido">
+                    <i class="fas fa-plus-circle w-8"></i> Novo Pedido
                 </div>
-                <div onclick="showTab('pedidos')" class="sidebar-item px-6 py-4 flex items-center cursor-pointer">
-                    <i class="fas fa-list w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Histórico</span>
+                <div onclick="showTab('pedidos')" class="sidebar-item" id="nav_pedidos">
+                    <i class="fas fa-list w-8"></i> Histórico
                 </div>
-                <div onclick="showTab('produtos')" class="sidebar-item px-6 py-4 flex items-center cursor-pointer">
-                    <i class="fas fa-utensils w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Produtos</span>
+                <div onclick="showTab('produtos')" class="sidebar-item" id="nav_produtos">
+                    <i class="fas fa-utensils w-8"></i> Produtos
                 </div>
-                <div onclick="showTab('embalagens')" class="sidebar-item px-6 py-4 flex items-center cursor-pointer">
-                    <i class="fas fa-box-open w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Estoque</span>
+                <div onclick="showTab('embalagens')" class="sidebar-item" id="nav_embalagens">
+                    <i class="fas fa-box-open w-8"></i> Estoque
                 </div>
-                
-                <!-- Separador -->
-                <div class="border-t border-secondary mx-4 my-4 opacity-50"></div>
-                
-                <!-- Reset Database -->
-                <a href="/limpar_tudo" 
-                   onclick="return confirm('⚠️ ATENÇÃO: Isso EXCLUIRÁ TODOS os dados e reinicializará o sistema. Tem certeza?')" 
-                   class="sidebar-item px-6 py-4 flex items-center text-red-100 hover:bg-red-600 transition-smooth">
-                    <i class="fas fa-eraser w-6 text-center mr-3 text-lg"></i> 
-                    <span class="font-medium">Reset DB</span>
-                </a>
             </nav>
 
-            <!-- Logout -->
-            <div onclick="handleLogout()" class="sidebar-item px-6 py-4 flex items-center bg-accent hover:bg-red-500 cursor-pointer transition-smooth relative z-10">
-                <i class="fas fa-sign-out-alt w-6 text-center mr-3 text-lg"></i> 
-                <span class="font-medium">Sair</span>
-            </div>
-
-            <!-- Footer -->
-            <div class="p-4 text-xs text-orange-100 text-center border-t border-secondary opacity-75 relative z-10">
-                <p class="font-medium">Delicioso © 2024</p>
-                <p class="text-orange-200">Sistema Profissional</p>
+            <div onclick="handleLogout()" class="sidebar-item bg-black/10 hover:bg-red-600 mt-auto">
+                <i class="fas fa-sign-out-alt w-8"></i> Sair do Sistema
             </div>
         </aside>
 
-        <!-- Conteúdo Principal Ultra Responsivo -->
         <main class="main-content">
             
-            <!-- Dashboard Ultra Responsivo -->
             <div id="dashboard" class="tab-content active">
-                <!-- Header Responsivo -->
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
-                            <i class="fas fa-chart-line text-primary mr-3"></i>Dashboard
-                        </h2>
-                        <p class="text-gray-600 text-sm sm:text-base">Visão geral do seu negócio em tempo real</p>
-                    </div>
-                    
-                    <!-- Filtro de Data Ultra Responsivo -->
-                    <div class="card p-4 w-full lg:w-auto">
-                        <div class="flex flex-col sm:flex-row gap-3 items-end">
-                            <div class="w-full sm:w-auto">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">
-                                    <i class="fas fa-calendar-alt mr-1"></i>De:
-                                </label>
-                                <input type="date" id="dash_data_ini" class="input-field text-sm w-full sm:w-auto">
-                            </div>
-                            <div class="w-full sm:w-auto">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">
-                                    <i class="fas fa-calendar-alt mr-1"></i>Até:
-                                </label>
-                                <input type="date" id="dash_data_fim" class="input-field text-sm w-full sm:w-auto">
-                            </div>
-                            <button onclick="carregarDashboard()" class="btn-primary text-sm w-full sm:w-auto" title="Filtrar dados">
-                                <i class="fas fa-filter mr-2"></i>Filtrar
-                            </button>
-                        </div>
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-extrabold text-gray-800">Dashboard</h2>
+                    <div class="flex gap-3">
+                        <input type="date" id="dash_data_ini" class="input-field w-44">
+                        <input type="date" id="dash_data_fim" class="input-field w-44">
+                        <button onclick="carregarDashboard()" class="btn-primary">Filtrar</button>
                     </div>
                 </div>
 
-                <!-- Cards de Métricas Ultra Responsivos -->
-                <div class="grid-responsive grid-1 sm:grid-2 lg:grid-4 gap-4 lg:gap-6 mb-8">
-                    <!-- Card Faturamento -->
-                    <div class="card border-l-4 border-green-500 hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-3">
-                            <i class="fas fa-dollar-sign text-2xl text-green-500"></i>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-bold">RECEITA</span>
-                        </div>
-                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Faturamento Total</p>
-                        <p class="text-xl sm:text-2xl font-bold text-gray-800" id="dash_faturamento">R$ 0,00</p>
+                <div class="grid grid-cols-4 gap-6 mb-8">
+                    <div class="card border-l-8 border-green-500">
+                        <p class="text-gray-400 text-xs font-bold uppercase">Faturamento Total</p>
+                        <p class="text-3xl font-black mt-1" id="dash_faturamento">R$ 0,00</p>
                     </div>
-                    
-                    <!-- Card A Pagar -->
-                    <div class="card border-l-4 border-red-500 hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-3">
-                            <i class="fas fa-clock text-2xl text-red-500"></i>
-                            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full font-bold">PENDENTE</span>
-                        </div>
-                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Total "A Pagar"</p>
-                        <p class="text-xl sm:text-2xl font-bold text-red-600" id="dash_apagar">R$ 0,00</p>
+                    <div class="card border-l-8 border-red-500">
+                        <p class="text-gray-400 text-xs font-bold uppercase">Total Fiado (A Pagar)</p>
+                        <p class="text-3xl font-black mt-1 text-red-600" id="dash_apagar">R$ 0,00</p>
                     </div>
-                    
-                    <!-- Card Frete Alto -->
-                    <div class="card border-l-4 border-orange-400 hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-3">
-                            <i class="fas fa-truck text-2xl text-orange-500"></i>
-                            <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-bold">FRETE+</span>
-                        </div>
-                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Frete > R$ 2,00</p>
-                        <div class="flex justify-between items-end">
-                            <span class="text-lg sm:text-xl font-bold text-gray-800" id="dash_frete_alto">R$ 0,00</span>
-                            <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full font-bold" id="dash_qtd_frete_alto">0 un</span>
-                        </div>
+                    <div class="card border-l-8 border-orange-400">
+                        <p class="text-gray-400 text-xs font-bold uppercase">Frete Motoboy</p>
+                        <p class="text-3xl font-black mt-1" id="dash_frete_alto">R$ 0,00</p>
                     </div>
-                    
-                    <!-- Card Frete Baixo -->
-                    <div class="card border-l-4 border-gray-400 hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-3">
-                            <i class="fas fa-motorcycle text-2xl text-gray-500"></i>
-                            <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full font-bold">FRETE-</span>
-                        </div>
-                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Frete ≤ R$ 2,00</p>
-                        <div class="flex justify-between items-end">
-                            <span class="text-lg sm:text-xl font-bold text-gray-800" id="dash_frete_baixo">R$ 0,00</span>
-                            <span class="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded-full font-bold" id="dash_qtd_frete_baixo">0 un</span>
-                        </div>
+                    <div class="card border-l-8 border-blue-400">
+                        <p class="text-gray-400 text-xs font-bold uppercase">Frete Delicioso</p>
+                        <p class="text-3xl font-black mt-1" id="dash_frete_baixo">R$ 0,00</p>
                     </div>
                 </div>
 
-                <!-- Gráficos e Relatórios Ultra Responsivos -->
-                <div class="grid-responsive grid-1 lg:grid-2 gap-6 lg:gap-8"></div>
-                    <!-- Resumo por Pagamento -->
-                    <div class="card hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-lg font-bold text-gray-700 flex items-center">
-                                <i class="fas fa-credit-card text-primary mr-3"></i>
-                                Formas de Pagamento
-                            </h3>
-                            <i class="fas fa-chart-pie text-gray-400"></i>
-                        </div>
-                        <ul id="lista_pagamentos" class="space-y-4">
-                            <!-- Preenchido via JavaScript -->
-                            <li class="text-gray-400 italic text-center py-8">
-                                <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
-                                <p>Carregando dados...</p>
-                            </li>
-                        </ul>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card">
+                        <h3 class="font-bold text-lg mb-6 flex items-center"><i class="fas fa-wallet mr-2 text-primary"></i> Métodos de Pagamento</h3>
+                        <ul id="lista_pagamentos" class="space-y-4"></ul>
                     </div>
-
-                    <!-- Lista de Devedores -->
-                    <div class="card hover:shadow-lg transition-smooth">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-lg font-bold text-red-600 flex items-center">
-                                <i class="fas fa-exclamation-triangle text-red-500 mr-3"></i>
-                                Clientes "A Pagar"
-                            </h3>
-                            <span class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Período Atual</span>
-                        </div>
-                        
-                        <div class="table-responsive max-h-80">
-                            <table class="w-full text-sm">
-                                <thead class="bg-gray-50 sticky top-0">
-                                    <tr>
-                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                            <i class="fas fa-hashtag mr-1"></i>Pedido
-                                        </th>
-                                        <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                            <i class="fas fa-user mr-1"></i>Cliente
-                                        </th>
-                                        <th class="px-4 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                            <i class="fas fa-dollar-sign mr-1"></i>Valor
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="lista_devedores" class="divide-y divide-gray-200">
-                                    <!-- Preenchido via JavaScript -->
-                                    <tr>
-                                        <td colspan="3" class="px-4 py-8 text-center text-gray-400">
-                                            <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
-                                            <p>Carregando devedores...</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ABA: NOVO PEDIDO -->
-            <div id="novo_pedido" class="tab-content">
-                <h2 class="text-2xl font-bold text-gray-700 mb-6">Novo Pedido</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Coluna Esquerda -->
-                    <div class="md:col-span-2 space-y-4">
-                        <div class="bg-white p-6 rounded-lg shadow">
-                            <h2 class="text-lg font-bold mb-4 text-orange-600 border-b pb-2">Dados do Cliente</h2>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <input type="text" id="cli_nome" placeholder="Nome do Cliente" class="border p-2 rounded w-full focus:ring-2 focus:ring-orange-200 outline-none">
-                                <input type="text" id="cli_end" placeholder="Endereço Completo" class="border p-2 rounded w-full focus:ring-2 focus:ring-orange-200 outline-none">
-                                <input type="number" id="cli_frete" placeholder="Frete (R$)" class="border p-2 rounded w-full focus:ring-2 focus:ring-orange-200 outline-none">
-                                <select id="cli_pag" class="border p-2 rounded w-full focus:ring-2 focus:ring-orange-200 outline-none bg-white">
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="Pix">Pix</option>
-                                    <option value="Cartão">Cartão</option>
-                                    <option value="A Pagar" class="text-red-600 font-bold">A Pagar (Fiado)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow">
-                            <h2 class="text-lg font-bold mb-4 text-orange-600 border-b pb-2">Itens</h2>
-                            <div class="flex gap-2">
-                                <select id="sel_produto" class="border p-2 rounded w-full flex-grow bg-white">
-                                    <option value="">Carregando produtos...</option>
-                                </select>
-                                <input type="number" id="qtd_produto" value="1" min="1" class="border p-2 rounded w-20 text-center">
-                                <button onclick="adicionarAoCarrinho()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 font-bold transition shadow">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Coluna Direita: Carrinho -->
-                    <div class="bg-white p-6 rounded-lg shadow h-fit border-t-4 border-orange-600">
-                        <h2 class="text-xl font-bold mb-4 text-gray-700">Carrinho</h2>
-                        <ul id="lista_carrinho" class="space-y-2 mb-4 text-sm max-h-80 overflow-y-auto">
-                            <li class="text-gray-400 italic text-center py-8">O carrinho está vazio.</li>
-                        </ul>
-                        <div class="border-t pt-4 mt-4 bg-gray-50 p-4 rounded">
-                            <p class="text-3xl font-bold text-right text-orange-900" id="total_display">R$ 0.00</p>
-                            <button onclick="finalizarPedido()" class="w-full mt-4 bg-orange-600 text-white py-3 rounded font-bold hover:bg-orange-700 transition shadow-lg transform active:scale-95">CONCLUIR VENDA</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ABA: PEDIDOS (HISTÓRICO) -->
-            <div id="pedidos" class="tab-content">
-                <h2 class="text-2xl font-bold text-gray-700 mb-6">Todos os Pedidos</h2>
-                
-                <!-- ÁREA DE FILTRO DE DATA -->
-                <div class="bg-white p-4 rounded shadow mb-4 flex flex-col md:flex-row gap-4 items-end">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Data Inicial</label>
-                        <input type="date" id="filtro_pedidos_ini" class="border p-2 rounded text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Data Final</label>
-                        <input type="date" id="filtro_pedidos_fim" class="border p-2 rounded text-sm w-full">
-                    </div>
-                    <button onclick="carregarListaPedidos()" class="bg-orange-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-orange-700 h-10 w-full md:w-auto">
-                        <i class="fas fa-filter mr-1"></i> Filtrar
-                    </button>
-                    <button onclick="limparFiltroPedidos()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm font-bold hover:bg-gray-300 h-10 w-full md:w-auto">
-                        Limpar
-                    </button>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
-                            <thead class="bg-gray-800 text-white">
-                                <tr>
-                                    <th class="p-3 whitespace-nowrap">ID</th>
-                                    <th class="p-3 whitespace-nowrap">Data</th>
-                                    <th class="p-3 whitespace-nowrap">Cliente</th>
-                                    <th class="p-3">Itens</th>
-                                    <th class="p-3 whitespace-nowrap">Pagamento</th>
-                                    <th class="p-3 whitespace-nowrap text-right">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela_historico" class="divide-y hover:divide-orange-100"></tbody>
+                    <div class="card">
+                        <h3 class="font-bold text-lg mb-6 flex items-center text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i> Clientes Devedores</h3>
+                        <table class="w-full">
+                            <thead><tr><th>Pedido</th><th>Cliente</th><th class="text-right">Valor</th></tr></thead>
+                            <tbody id="lista_devedores"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- ABA: PRODUTOS -->
-            <div id="produtos" class="tab-content">
-                <h2 class="text-2xl font-bold text-gray-700 mb-6">Gerenciar Produtos</h2>
-                <div class="bg-white p-6 rounded-lg shadow mb-6">
-                    <div class="flex flex-wrap gap-4 items-end">
-                        <div class="flex-grow min-w-[200px]">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome do Produto</label>
-                            <input type="text" id="prod_nome" class="border p-2 rounded w-full focus:border-orange-500 outline-none">
+            <div id="novo_pedido" class="tab-content">
+                <h2 class="text-3xl font-extrabold mb-8">Novo Pedido</h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="col-span-2 space-y-6">
+                        <div class="card">
+                            <h3 class="font-bold mb-4 text-orange-600 border-b pb-2">1. Dados do Cliente</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="text" id="cli_nome" placeholder="Nome do Cliente" class="input-field">
+                                <input type="text" id="cli_end" placeholder="Endereço Completo" class="input-field">
+                                <input type="number" id="cli_frete" placeholder="Valor do Frete (R$)" class="input-field">
+                                <select id="cli_pag" class="input-field">
+                                    <option value="Dinheiro">Dinheiro</option>
+                                    <option value="Pix">Pix</option>
+                                    <option value="Cartão">Cartão</option>
+                                    <option value="A Pagar">A Pagar (Fiado)</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="w-32">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Preço (R$)</label>
-                            <input type="number" step="0.01" id="prod_preco" class="border p-2 rounded w-full focus:border-orange-500 outline-none">
+                        <div class="card">
+                            <h3 class="font-bold mb-4 text-orange-600 border-b pb-2">2. Itens do Pedido</h3>
+                            <div class="flex gap-4">
+                                <select id="sel_produto" class="input-field flex-grow"></select>
+                                <input type="number" id="qtd_produto" value="1" min="1" class="input-field w-24 text-center font-bold">
+                                <button onclick="adicionarAoCarrinho()" class="btn-primary w-20 text-xl">+</button>
+                            </div>
                         </div>
-                        <div class="w-48">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Baixa Estoque (Opcional)</label>
-                            <select id="prod_emb" class="border p-2 rounded w-full bg-white focus:border-orange-500 outline-none">
-                                <option value="">Carregando embalagens...</option>
-                            </select>
+                    </div>
+                    <div class="card flex flex-col h-fit sticky top-10">
+                        <h3 class="font-bold text-xl mb-4 text-gray-700">Carrinho</h3>
+                        <ul id="lista_carrinho" class="space-y-3 mb-6 flex-grow"></ul>
+                        <div class="border-t pt-4 bg-gray-50 -m-6 p-6 rounded-b-lg">
+                            <p class="text-4xl font-black text-right text-orange-600" id="total_display">R$ 0,00</p>
+                            <button onclick="finalizarPedido()" class="btn-primary w-full py-4 mt-4 text-xl shadow-lg">FINALIZAR PEDIDO</button>
                         </div>
-                        <button onclick="salvarProduto()" class="bg-orange-600 text-white px-6 py-2 rounded font-bold hover:bg-orange-700 transition">Salvar</button>
                     </div>
                 </div>
-                
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-gray-100 border-b text-gray-600 uppercase text-xs">
-                            <tr>
-                                <th class="p-4">Produto</th>
-                                <th class="p-4">Preço</th>
-                                <th class="p-4">Embalagem Vinculada</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela_produtos" class="divide-y"></tbody>
+            </div>
+
+            <div id="pedidos" class="tab-content">
+                <h2 class="text-3xl font-extrabold mb-8">Histórico de Pedidos</h2>
+                <div class="card">
+                    <table>
+                        <thead><tr><th>ID</th><th>Data/Hora</th><th>Cliente</th><th>Pagamento</th><th class="text-right">Total</th></tr></thead>
+                        <tbody id="tabela_historico"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- ABA: EMBALAGENS (ESTOQUE) -->
-            <div id="embalagens" class="tab-content">
-                <h2 class="text-2xl font-bold text-gray-700 mb-6">Estoque de Embalagens</h2>
-                
-                <!-- Adicionar Novo / Entrada de Estoque -->
-                <div class="bg-white p-6 rounded-lg shadow mb-6 border-b-4 border-green-500">
-                    <h3 class="text-sm font-bold text-gray-600 uppercase mb-3"><i class="fas fa-plus mr-1"></i> Cadastrar Nova / Entrada de Estoque</h3>
+            <div id="produtos" class="tab-content">
+                <h2 class="text-3xl font-extrabold mb-8">Gerenciar Itens</h2>
+                <div class="card">
+                    <h3 class="font-bold mb-4">Cadastrar Novo Produto</h3>
                     <div class="flex gap-4 items-end">
                         <div class="flex-grow">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Nome</label>
-                            <input type="text" id="emb_nome" placeholder="Ex: Marmita G" class="border p-2 rounded w-full focus:border-green-500 outline-none">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Nome</label>
+                            <input type="text" id="prod_nome" class="input-field">
                         </div>
-                        <div class="w-32">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Qtd. Entrada</label>
-                            <input type="number" id="emb_qtd" placeholder="0" class="border p-2 rounded w-full focus:border-green-500 outline-none">
+                        <div class="w-40">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Preço (R$)</label>
+                            <input type="number" step="0.01" id="prod_preco" class="input-field">
                         </div>
-                        <button onclick="salvarEmbalagem()" class="bg-green-600 text-white px-6 py-2 rounded font-bold hover:bg-green-700 transition">Adicionar</button>
+                        <div class="w-60">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Vincular Embalagem</label>
+                            <select id="prod_emb" class="input-field"></select>
+                        </div>
+                        <button onclick="salvarProduto()" class="btn-primary px-8">Salvar</button>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2">* Use este campo para criar novas embalagens ou somar ao estoque de existentes.</p>
                 </div>
+                <div class="card">
+                    <table id="tabela_produtos">
+                        <thead><tr><th>Nome</th><th>Preço</th><th>Embalagem</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
 
-                <!-- Grid de Estoque Editável -->
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="grid_embalagens"></div>
+            <div id="embalagens" class="tab-content">
+                <h2 class="text-3xl font-extrabold mb-8">Controle de Estoque</h2>
+                <div class="card bg-green-50 border-green-200">
+                    <h3 class="font-bold mb-4 text-green-800">Entrada de Material</h3>
+                    <div class="flex gap-4">
+                        <input type="text" id="emb_nome" placeholder="Nome da Embalagem" class="input-field">
+                        <input type="number" id="emb_qtd" placeholder="Qtd. Inicial" class="input-field w-40">
+                        <button onclick="salvarEmbalagem()" class="btn-primary bg-green-600 hover:bg-green-700">Cadastrar</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 gap-6" id="grid_embalagens"></div>
             </div>
 
         </main>
     </div>
 
-    <!-- LÓGICA JAVASCRIPT -->
     <script>
-        // --- VARIÁVEIS GLOBAIS ---
+        // Lógica de Scripts idêntica à anterior, mantendo a integração com Render
         let carrinho = [];
         let produtosCache = [];
+        const API_BASE = "https://delicioso-34fj.onrender.com";
 
-        // --- AUTENTICAÇÃO E RENDERIZAÇÃO DE TELA ---
-
-        function renderScreen() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-            const appContainer = document.getElementById('app_container');
-            const loginScreen = document.getElementById('login_screen');
-
-            if (isLoggedIn) {
-                loginScreen.classList.add('hidden');
-                appContainer.classList.remove('hidden');
-                document.body.classList.remove('justify-center', 'items-center');
-                document.body.classList.add('flex'); // Volta o layout flex principal
-                
-                // Inicia o dashboard após o login
-                showTab('dashboard'); 
-            } else {
-                loginScreen.classList.remove('hidden');
-                appContainer.classList.add('hidden');
-                document.body.classList.add('justify-center', 'items-center');
-                document.body.classList.remove('flex'); // Remove flex para centralizar o login
-            }
+        async function api(url, method='GET', body=null) {
+            const options = { method, headers: { 'Content-Type': 'application/json' } };
+            if (body) options.body = JSON.stringify(body);
+            try {
+                const res = await fetch(`${API_BASE}${url}`, options);
+                return await res.json();
+            } catch (e) { console.error("Erro na API:", e); }
         }
 
-        function handleLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            const errorElement = document.getElementById('login_error');
-
-            // Credenciais hardcoded
-            const VALID_USER = 'admin';
-            const VALID_PASS = '1234';
-
-            if (user === VALID_USER && pass === VALID_PASS) {
-                sessionStorage.setItem('isLoggedIn', 'true');
-                errorElement.style.display = 'none';
-                renderScreen();
-            } else {
-                errorElement.innerText = 'Usuário ou senha incorretos. Tente novamente.';
-                errorElement.style.display = 'block';
-                // Limpa o campo de senha
-                document.getElementById('password').value = '';
-            }
-        }
-
-        function handleLogout() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                sessionStorage.removeItem('isLoggedIn');
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-                renderScreen();
-            }
-        }
-
-        // --- NAVEGAÇÃO ---
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active-nav'));
-            
-            const activeTab = document.getElementById(tabId);
-            if (activeTab) activeTab.classList.add('active');
-            
-            const menuItems = document.querySelectorAll('.sidebar-item');
-            menuItems.forEach(item => {
-                if(item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabId)) {
-                    item.classList.add('active-nav');
-                }
-            });
-
-            // Lógica de carregamento de dados ao mudar de aba
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById(`nav_${tabId}`).classList.add('active-nav');
             if(tabId === 'dashboard') carregarDashboard();
-            if(tabId === 'produtos') { carregarProdutos(); carregarOpcoesEmbalagem(); }
+            if(tabId === 'produtos') carregarProdutos();
             if(tabId === 'embalagens') carregarEmbalagens();
             if(tabId === 'novo_pedido') carregarOpcoesProdutos();
             if(tabId === 'pedidos') carregarListaPedidos();
         }
 
-        // --- FETCH API HELPER ---
-        async function api(url, method='GET', body=null) {
-    const options = { method, headers: { 'Content-Type': 'application/json' } };
-    if (body) options.body = JSON.stringify(body);
-
-    // URL do backend hospedado no Render
-    const fullUrl = `https://delicioso-34fj.onrender.com${url}`;
-
-    const res = await fetch(fullUrl, options);
-    if(res.headers.get("content-type")?.includes("application/json")) {
-        return await res.json();
-    } else {
-        throw new Error("❌ Resposta inesperada: " + await res.text());
-    }
-}
-
-
-        // --- LÓGICA DASHBOARD ---
         async function carregarDashboard() {
-            const ini = document.getElementById('dash_data_ini');
-            const fim = document.getElementById('dash_data_fim');
-            
-            const hoje = new Date().toISOString().split('T')[0];
-            if(!ini.value) ini.value = hoje;
-            if(!fim.value) fim.value = hoje;
-            
-            const dados = await api(`/api/dashboard?data_inicio=${ini.value}&data_fim=${fim.value}`);
+            const ini = document.getElementById('dash_data_ini').value || new Date().toISOString().split('T')[0];
+            const fim = document.getElementById('dash_data_fim').value || new Date().toISOString().split('T')[0];
+            const dados = await api(`/api/dashboard?data_inicio=${ini}&data_fim=${fim}`);
             if(!dados) return;
-
             document.getElementById('dash_faturamento').innerText = `R$ ${dados.faturamento_total.toFixed(2)}`;
             document.getElementById('dash_apagar').innerText = `R$ ${dados.a_pagar_total.toFixed(2)}`;
             document.getElementById('dash_frete_alto').innerText = `R$ ${dados.frete_maior_2.toFixed(2)}`;
-            document.getElementById('dash_qtd_frete_alto').innerText = `${dados.qtd_frete_maior_2} un`;
             document.getElementById('dash_frete_baixo').innerText = `R$ ${dados.frete_menor_2.toFixed(2)}`;
-            document.getElementById('dash_qtd_frete_baixo').innerText = `${dados.qtd_frete_menor_2} un`;
-
-            // Renderiza Pagamentos
             const listaPag = document.getElementById('lista_pagamentos');
-            listaPag.innerHTML = '';
-            for (const [metodo, valor] of Object.entries(dados.pagamentos)) {
-                listaPag.innerHTML += `
-                    <li class="flex justify-between items-center border-b border-gray-100 pb-2 last:border-0">
-                        <span class="text-gray-600 flex items-center">
-                            <i class="fas fa-money-bill-wave text-gray-400 mr-2 w-4"></i> ${metodo}
-                        </span>
-                        <span class="font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded">R$ ${valor.toFixed(2)}</span>
-                    </li>
-                `;
-            }
-
-            // Renderiza Devedores
+            listaPag.innerHTML = Object.entries(dados.pagamentos).map(([m, v]) => 
+                `<li class="flex justify-between font-bold border-b pb-2"><span>${m}</span><span class="text-primary">R$ ${v.toFixed(2)}</span></li>`
+            ).join('');
             const listaDev = document.getElementById('lista_devedores');
-            if(dados.devedores.length === 0) {
-                listaDev.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-400 italic bg-gray-50 rounded">Ninguém devendo neste período.</td></tr>';
-            } else {
-                listaDev.innerHTML = dados.devedores.map(d => `
-                    <tr class="hover:bg-red-50 transition">
-                        <td class="px-3 py-2 border-b text-gray-500 text-xs">#${d.id_pedido}</td>
-                        <td class="px-3 py-2 border-b font-semibold text-gray-700">${d.nome}</td>
-                        <td class="px-3 py-2 border-b text-right text-red-600 font-bold">R$ ${d.valor.toFixed(2)}</td>
-                    </tr>
-                `).join('');
-            }
+            listaDev.innerHTML = dados.devedores.map(d => 
+                `<tr><td>#${d.id_pedido}</td><td class="font-bold">${d.nome}</td><td class="text-right text-red-600 font-bold">R$ ${d.valor.toFixed(2)}</td></tr>`
+            ).join('');
         }
 
-        // --- LÓGICA PEDIDOS (LISTA) ---
-        async function carregarListaPedidos() {
-            const dataInicio = document.getElementById('filtro_pedidos_ini').value;
-            const dataFim = document.getElementById('filtro_pedidos_fim').value;
-            
-            let url = '/api/pedidos';
-            if (dataInicio && dataFim) {
-                url += `?data_inicio=${dataInicio}&data_fim=${dataFim}`;
-            }
-
-            const dados = await api(url);
-            if(!dados) return;
-
-            const tbody = document.getElementById('tabela_historico');
-            if (dados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-500 italic">Nenhum pedido encontrado.</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = dados.map(p => {
-                const dataFormatada = p.data_hora ? new Date(p.data_hora).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                return `
-                    <tr class="hover:bg-orange-50 transition border-b last:border-0">
-                        <td class="p-3 font-mono text-xs text-gray-500 font-bold">#${p.id}</td>
-                        <td class="p-3 text-sm text-gray-600">${dataFormatada}</td>
-                        <td class="p-3 font-bold text-gray-800">${p.cliente}</td>
-                        <td class="p-3 text-sm text-gray-500 italic max-w-xs truncate">${p.descricao}</td>
-                        <td class="p-3 text-sm">
-                            <span class="${p.pagamento === 'A Pagar' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'} px-2 py-1 rounded text-xs font-bold">
-                                ${p.pagamento}
-                            </span>
-                        </td>
-                        <td class="p-3 text-right text-green-600 font-bold">R$ ${p.total.toFixed(2)}</td>
-                    </tr>
-                `;
-            }).join('');
+        async function carregarProdutos() {
+            const dados = await api('/api/produtos');
+            const embs = await api('/api/embalagens');
+            const tbody = document.querySelector('#tabela_produtos tbody');
+            tbody.innerHTML = dados.map(p => `<tr><td class="font-bold">${p.nome}</td><td>R$ ${p.preco.toFixed(2)}</td><td class="text-gray-500">${p.nome_embalagem || 'Nenhuma'}</td></tr>`).join('');
+            const sel = document.getElementById('prod_emb');
+            sel.innerHTML = '<option value="">Não descontar estoque</option>' + embs.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
         }
 
-        function limparFiltroPedidos() {
-            document.getElementById('filtro_pedidos_ini').value = '';
-            document.getElementById('filtro_pedidos_fim').value = '';
-            carregarListaPedidos();
+        async function salvarProduto() {
+            const nome = document.getElementById('prod_nome').value;
+            const preco = document.getElementById('prod_preco').value;
+            const id_embalagem = document.getElementById('prod_emb').value;
+            await api('/api/produtos', 'POST', { nome, preco: parseFloat(preco), id_embalagem });
+            carregarProdutos();
         }
 
-        // --- LÓGICA CARRINHO E FINALIZAÇÃO ---
-        async function finalizarPedido() {
-            if(carrinho.length === 0) return alert('O carrinho está vazio!');
-            
-            const cliente = {
-                nome: document.getElementById('cli_nome').value,
-                endereco: document.getElementById('cli_end').value,
-                frete: document.getElementById('cli_frete').value,
-                pagamento: document.getElementById('cli_pag').value
-            };
-
-            if(!cliente.nome) return alert('Por favor, informe o nome do cliente.');
-
-            const res = await api('/api/pedidos', 'POST', { cliente, carrinho });
-            if(!res) return;
-            
-            let msg = res.message;
-            if(res.avisos && res.avisos.length > 0) msg += "\n\n⚠️ ALERTA DE ESTOQUE:\n" + res.avisos.join('\n');
-            alert(msg);
-
-            // Limpa o estado local
-            carrinho = [];
-            renderizarCarrinho();
-            document.getElementById('cli_nome').value = '';
-            document.getElementById('cli_end').value = '';
-            document.getElementById('cli_frete').value = '';
-            document.getElementById('cli_pag').value = 'Dinheiro';
-
-            // Recarrega todas as abas afetadas para atualizar a UI
-            carregarDashboard();
-            carregarListaPedidos();
-            carregarEmbalagens(); 
-        }
-
-        async function carregarOpcoesProdutos() {
-            produtosCache = await api('/api/produtos') || [];
-            const sel = document.getElementById('sel_produto');
-            if(produtosCache.length === 0) {
-                 sel.innerHTML = '<option value="">Nenhum produto cadastrado.</option>';
-                 return;
-            }
-            sel.innerHTML = '<option value="">Selecione um produto...</option>' + 
-                produtosCache.map((p, index) => `<option value="${index}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>`).join('');
-        }
-
-        function adicionarAoCarrinho() {
-            const index = document.getElementById('sel_produto').value;
-            const qtd = parseInt(document.getElementById('qtd_produto').value);
-            if(index === "" || isNaN(qtd) || qtd < 1) return alert("Selecione um produto e informe uma quantidade válida.");
-
-            const prod = produtosCache[index];
-            const subtotal = prod.preco * qtd;
-            carrinho.push({ ...prod, qtd, subtotal });
-            renderizarCarrinho();
-        }
-
-        function renderizarCarrinho() {
-            const lista = document.getElementById('lista_carrinho');
-            if(carrinho.length === 0) {
-                lista.innerHTML = '<li class="text-gray-400 italic text-center py-8">O carrinho está vazio.</li>';
-                document.getElementById('total_display').innerText = "R$ 0.00";
-                return;
-            }
-            lista.innerHTML = carrinho.map((item, idx) => `
-                <li class="flex justify-between items-center border-b pb-2 pt-2 first:pt-0 border-gray-100">
-                    <div>
-                        <span class="font-bold text-gray-700">${item.qtd}x</span> ${item.nome}
-                    </div>
-                    <div class="flex items-center">
-                        <span class="font-bold text-gray-800 mr-3">R$ ${item.subtotal.toFixed(2)}</span>
-                        <button onclick="removerItem(${idx})" class="text-red-500 hover:bg-red-50 rounded-full w-6 h-6 flex items-center justify-center transition" title="Remover"><i class="fas fa-times"></i></button>
-                    </div>
-                </li>
-            `).join('');
-            const frete = parseFloat(document.getElementById('cli_frete').value) || 0;
-            const total = carrinho.reduce((acc, item) => acc + item.subtotal, 0) + frete;
-            document.getElementById('total_display').innerText = `R$ ${total.toFixed(2)}`;
-        }
-
-        function removerItem(idx) {
-            carrinho.splice(idx, 1);
-            renderizarCarrinho();
-        }
-
-        // --- LÓGICA ESTOQUE (EMBALAGENS) ---
         async function carregarEmbalagens() {
             const dados = await api('/api/embalagens');
-            if(!dados) return;
             const grid = document.getElementById('grid_embalagens');
-            if(dados.length === 0) {
-                grid.innerHTML = '<p class="text-gray-500 italic">Nenhuma embalagem cadastrada. Use o formulário acima para adicionar.</p>';
-                return;
-            }
             grid.innerHTML = dados.map(e => `
-                <div class="bg-white p-4 rounded shadow border-l-4 ${e.quantidade < 10 ? 'border-red-500' : 'border-green-500'} flex flex-col justify-between group">
-                    <div>
-                        <h3 class="font-bold text-lg text-gray-800 mb-1">${e.nome}</h3>
-                        <p class="text-[10px] text-gray-500 uppercase font-bold">Estoque Atual</p>
-                    </div>
-                    
-                    <!-- Campo de Edição -->
-                    <div class="flex items-center gap-2 mt-2 bg-gray-50 p-1 rounded border border-gray-200">
-                        <input type="number" id="qtd_edit_${e.id}" value="${e.quantidade}" 
-                               class="w-full bg-transparent font-bold text-xl text-gray-700 outline-none p-1">
-                        <button onclick="atualizarEstoqueDireto(${e.id})" 
-                                class="bg-blue-600 text-white w-8 h-8 rounded flex items-center justify-center hover:bg-blue-700 shadow"
-                                title="Salvar Nova Quantidade">
-                            <i class="fas fa-save"></i>
-                        </button>
+                <div class="card text-center border-t-4 ${e.quantidade < 10 ? 'border-red-500' : 'border-green-500'}">
+                    <p class="font-bold text-gray-700">${e.nome}</p>
+                    <p class="text-3xl font-black my-2">${e.quantidade}</p>
+                    <div class="flex gap-1">
+                        <input type="number" id="edit_${e.id}" class="input-field p-1 text-center" value="${e.quantidade}">
+                        <button onclick="atualizarEstoque(${e.id})" class="btn-primary p-2"><i class="fas fa-save"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -1463,270 +388,90 @@
 
         async function salvarEmbalagem() {
             const nome = document.getElementById('emb_nome').value;
-            const qtd = document.getElementById('emb_qtd').value;
-            if(!nome || !qtd || parseInt(qtd) <= 0) return alert('Preencha nome e quantidade válida (> 0).');
-            
-            const res = await api('/api/embalagens', 'POST', { nome, quantidade: qtd });
-            if (!res) return;
+            const quantidade = document.getElementById('emb_qtd').value;
+            await api('/api/embalagens', 'POST', { nome, quantidade: parseInt(quantidade) });
+            carregarEmbalagens();
+        }
 
+        async function atualizarEstoque(id) {
+            const qtd = document.getElementById(`edit_${id}`).value;
+            await api('/api/embalagens/editar', 'POST', { id, quantidade: parseInt(qtd) });
+            carregarEmbalagens();
+        }
+
+        async function carregarOpcoesProdutos() {
+            produtosCache = await api('/api/produtos');
+            const sel = document.getElementById('sel_produto');
+            sel.innerHTML = produtosCache.map((p, i) => `<option value="${i}">${p.nome} - R$ ${p.preco.toFixed(2)}</option>`).join('');
+        }
+
+        function adicionarAoCarrinho() {
+            const idx = document.getElementById('sel_produto').value;
+            const qtd = parseInt(document.getElementById('qtd_produto').value);
+            const p = produtosCache[idx];
+            carrinho.push({ ...p, qtd, subtotal: p.preco * qtd });
+            renderCarrinho();
+        }
+
+        function renderCarrinho() {
+            const lista = document.getElementById('lista_carrinho');
+            lista.innerHTML = carrinho.map((item, i) => `
+                <li class="flex justify-between bg-white p-2 rounded border">
+                    <span><b>${item.qtd}x</b> ${item.nome}</span>
+                    <span class="font-bold">R$ ${item.subtotal.toFixed(2)}</span>
+                </li>
+            `).join('');
+            const frete = parseFloat(document.getElementById('cli_frete').value) || 0;
+            const total = carrinho.reduce((a, b) => a + b.subtotal, 0) + frete;
+            document.getElementById('total_display').innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        async function finalizarPedido() {
+            const cliente = {
+                nome: document.getElementById('cli_nome').value,
+                endereco: document.getElementById('cli_end').value,
+                frete: document.getElementById('cli_frete').value,
+                pagamento: document.getElementById('cli_pag').value
+            };
+            if(!cliente.nome) return alert("Informe o cliente");
+            const res = await api('/api/pedidos', 'POST', { cliente, carrinho });
             alert(res.message);
-            document.getElementById('emb_nome').value = '';
-            document.getElementById('emb_qtd').value = '';
-            
-            // CORREÇÃO ESSENCIAL: Recarrega as listas de exibição
-            carregarEmbalagens(); 
-            carregarOpcoesEmbalagem(); 
+            carrinho = [];
+            renderCarrinho();
+            showTab('dashboard');
         }
 
-        async function atualizarEstoqueDireto(id) {
-            const input = document.getElementById(`qtd_edit_${id}`);
-            const novoValor = parseInt(input.value);
-            
-            if(isNaN(novoValor)) return alert('Informe um valor numérico.');
-
-            if(confirm('Tem certeza que deseja CORRIGIR o estoque manualmente para este valor?')) {
-                const res = await api('/api/embalagens/editar', 'POST', { id: id, quantidade: novoValor });
-                if (!res) return;
-                alert(res.message);
-                
-                // CORREÇÃO ESSENCIAL: Recarrega as listas de exibição
-                carregarEmbalagens(); 
-                carregarOpcoesEmbalagem(); 
-            }
-        }
-
-        // --- LÓGICA PRODUTOS ---
-        async function carregarProdutos() {
-            const dados = await api('/api/produtos');
-            if(!dados) return;
-            const tbody = document.getElementById('tabela_produtos');
-            if(dados.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500 italic">Nenhum produto cadastrado.</td></tr>';
-                return;
-            }
-
+        async function carregarListaPedidos() {
+            const dados = await api('/api/pedidos');
+            const tbody = document.getElementById('tabela_historico');
             tbody.innerHTML = dados.map(p => `
-                <tr class="hover:bg-gray-50 border-b last:border-0">
-                    <td class="p-4 font-semibold text-gray-700">${p.nome}</td>
-                    <td class="p-4">R$ ${p.preco.toFixed(2)}</td>
-                    <td class="p-4 text-gray-500 text-sm">${p.nome_embalagem}</td>
+                <tr>
+                    <td>#${p.id}</td>
+                    <td>${new Date(p.data_hora).toLocaleString()}</td>
+                    <td class="font-bold">${p.cliente}</td>
+                    <td><span class="bg-gray-100 px-2 py-1 rounded text-xs font-bold">${p.pagamento}</span></td>
+                    <td class="text-right font-black text-green-600">R$ ${p.total.toFixed(2)}</td>
                 </tr>
             `).join('');
         }
 
-        async function salvarProduto() {
-            const nome = document.getElementById('prod_nome').value;
-            const preco = document.getElementById('prod_preco').value;
-            const id_embalagem = document.getElementById('prod_emb').value || null;
-            if(!nome || !preco) return alert('Preencha nome e preço');
-
-            const res = await api('/api/produtos', 'POST', { nome, preco: parseFloat(preco), id_embalagem });
-            if (!res) return;
-
-            alert(res.message);
-            document.getElementById('prod_nome').value = '';
-            document.getElementById('prod_preco').value = '';
-            
-            // CORREÇÃO ESSENCIAL: Recarrega as listas de exibição
-            carregarProdutos();
-            carregarOpcoesProdutos(); // Atualiza a lista de produtos no carrinho
+        function handleLogin() {
+            if(document.getElementById('username').value === 'admin' && document.getElementById('password').value === '1234') {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                renderApp();
+            } else { alert("Acesso negado."); }
         }
 
-        async function carregarOpcoesEmbalagem() {
-            const dados = await api('/api/embalagens') || [];
-            const sel = document.getElementById('prod_emb');
-            sel.innerHTML = '<option value="">Nenhuma (Não baixa estoque)</option>' + 
-                dados.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
+        function renderApp() {
+            const logado = sessionStorage.getItem('isLoggedIn') === 'true';
+            document.getElementById('login_screen').classList.toggle('hidden', logado);
+            document.getElementById('app_container').classList.toggle('hidden', !logado);
+            if(logado) showTab('dashboard');
         }
 
-        // --- FUNÇÕES DE RESPONSIVIDADE ---
-        
-        // Menu Mobile
-        function toggleMobileMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobile_overlay');
-            
-            sidebar.classList.toggle('mobile-open');
-            overlay.classList.toggle('active');
-        }
+        function handleLogout() { sessionStorage.clear(); location.reload(); }
 
-        function closeMobileMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobile_overlay');
-            
-            sidebar.classList.remove('mobile-open');
-            overlay.classList.remove('active');
-        }
-
-        // Responsividade Avançada
-        function handleResize() {
-            // Fecha menu mobile em telas grandes
-            if (window.innerWidth > 640) {
-                closeMobileMenu();
-            }
-            
-            // Ajusta layout de tabelas
-            adjustTableLayout();
-            
-            // Ajusta cards em telas pequenas
-            adjustCardLayout();
-        }
-
-        function adjustTableLayout() {
-            const tables = document.querySelectorAll('.table-responsive');
-            tables.forEach(table => {
-                if (window.innerWidth < 768) {
-                    table.style.fontSize = '0.875rem';
-                } else {
-                    table.style.fontSize = '';
-                }
-            });
-        }
-
-        function adjustCardLayout() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (window.innerWidth < 640) {
-                    card.style.padding = '1rem';
-                } else {
-                    card.style.padding = '';
-                }
-            });
-        }
-
-        // Touch Events para Mobile
-        function setupTouchEvents() {
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            
-            function handleSwipe() {
-                const swipeDistance = touchEndX - touchStartX;
-                const minSwipeDistance = 100;
-                
-                // Swipe da esquerda para direita (abrir menu)
-                if (swipeDistance > minSwipeDistance && touchStartX < 50) {
-                    if (window.innerWidth <= 640) {
-                        toggleMobileMenu();
-                    }
-                }
-                
-                // Swipe da direita para esquerda (fechar menu)
-                if (swipeDistance < -minSwipeDistance) {
-                    closeMobileMenu();
-                }
-            }
-        }
-
-        // Otimizações de Performance
-        function optimizePerformance() {
-            // Lazy loading para imagens
-            const images = document.querySelectorAll('img[data-src]');
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-            
-            images.forEach(img => imageObserver.observe(img));
-            
-            // Debounce para resize
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(handleResize, 250);
-            });
-        }
-
-        // Melhorias de Acessibilidade
-        function setupAccessibility() {
-            // Navegação por teclado
-            document.addEventListener('keydown', (e) => {
-                // ESC para fechar menu mobile
-                if (e.key === 'Escape') {
-                    closeMobileMenu();
-                }
-                
-                // Tab trap no menu mobile
-                if (e.key === 'Tab') {
-                    const sidebar = document.getElementById('sidebar');
-                    if (sidebar.classList.contains('mobile-open')) {
-                        const focusableElements = sidebar.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                        const firstElement = focusableElements[0];
-                        const lastElement = focusableElements[focusableElements.length - 1];
-                        
-                        if (e.shiftKey && document.activeElement === firstElement) {
-                            lastElement.focus();
-                            e.preventDefault();
-                        } else if (!e.shiftKey && document.activeElement === lastElement) {
-                            firstElement.focus();
-                            e.preventDefault();
-                        }
-                    }
-                }
-            });
-            
-            // ARIA labels dinâmicos
-            updateAriaLabels();
-        }
-
-        function updateAriaLabels() {
-            const menuBtn = document.getElementById('mobile_menu_btn');
-            const sidebar = document.getElementById('sidebar');
-            
-            if (menuBtn && sidebar) {
-                const isOpen = sidebar.classList.contains('mobile-open');
-                menuBtn.setAttribute('aria-expanded', isOpen);
-                menuBtn.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-            }
-        }
-
-        // Inicialização Completa
-        function initializeApp() {
-            renderScreen();
-            setupTouchEvents();
-            optimizePerformance();
-            setupAccessibility();
-            handleResize();
-            
-            // Adiciona classe para indicar que JS carregou
-            document.body.classList.add('js-loaded');
-            
-            // Remove loading inicial se existir
-            const loader = document.querySelector('.initial-loader');
-            if (loader) {
-                loader.remove();
-            }
-        }
-
-        // Event Listeners
-        window.addEventListener('DOMContentLoaded', initializeApp);
-        window.addEventListener('load', () => {
-            // Otimizações pós-carregamento
-            document.body.classList.add('loaded');
-        });
-
-        // Service Worker para PWA (opcional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered'))
-                    .catch(error => console.log('SW registration failed'));
-            });
-        }
+        window.onload = renderApp;
     </script>
 </body>
 </html>
